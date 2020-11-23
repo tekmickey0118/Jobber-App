@@ -95,4 +95,4 @@ class NewTaskView(APIView):
         serializer = NewTaskSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
-        return Response({'status':'200'})
+        return Response({'message':'user_task_created successfully'})

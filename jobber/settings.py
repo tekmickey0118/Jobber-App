@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     # social_oauth
     'allauth.socialaccount.providers.google',
     
+    #swagger_docs
+    'rest_framework_swagger',
+
     #other_django_apps    
     'django.contrib.admin',
     'django.contrib.auth',
@@ -108,6 +111,23 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.CoreJSONRenderer',
+        'rest_framework_swagger.renderers.SwaggerUIRenderer',
+        'rest_framework_swagger.renderers.OpenAPIRenderer',
+    )
+}
+
+
+SWAGGER_SETTINGS = {
+    'LOGIN_URL': 'rest_framework:login',
+    'LOGOUT_URL': 'rest_framework:logout',
+    'USE_SESSION_AUTH': True,
+    'DOC_EXPANSION': 'list',
+    'APIS_SORTER': 'alpha',
+    'SHOW_REQUEST_HEADERS': True
 }
 
 
