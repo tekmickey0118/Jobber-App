@@ -5,12 +5,12 @@ from .managers import UserManager
 
 class User(AbstractUser):
     username = models.CharField(max_length=255, null=False)
-    profile_pic =
+    profile_pic = models.ImageField(upload_to = '', blank = True)
     email = models.EmailField(max_length=255, unique=True)
-    reg_no. = models.TextField(max_length = 9)
+    reg_number = models.TextField(max_length = 9)
     hostel_room = models.TextField()
-    phone = models.IntegerField(max_length = 12)
-    gender = models.CharField()
+    phone = models.IntegerField(default = None, null = True)
+    gender = models.TextField()
     objects = UserManager()
 
     EMAIL_FIELD = 'email'

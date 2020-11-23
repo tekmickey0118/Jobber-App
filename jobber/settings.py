@@ -133,6 +133,9 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ['vitstudent.ac.in']
+
+
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
 
@@ -192,3 +195,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
