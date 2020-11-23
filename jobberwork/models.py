@@ -7,8 +7,8 @@ class NewTask(models.Model):
     user = models.ForeignKey(User,related_name = 'user_requested',on_delete = models.CASCADE)
     Title = models.TextField(null=False)
     Description = models.TextField(null=False)
-    Time = models.TimeField()
-    Date = models.DateField()
+    Time = models.TimeField(auto_now_add=False)
+    Date = models.DateField(auto_now_add=True)#auto add date
     location = models.IntegerField()
     active = models.BooleanField(default=True)
 

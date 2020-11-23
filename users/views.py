@@ -73,6 +73,7 @@ def user_detail_view(request):
     serializer = UserInfoSerializer(request.user)
     return Response(serializer.data)
 
+
 from django.core.files.uploadedfile import UploadedFile
 @api_view(['PATCH','GET'])
 def user_edit(request, format = None):
