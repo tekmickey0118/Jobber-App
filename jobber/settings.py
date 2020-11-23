@@ -34,6 +34,8 @@ INSTALLED_APPS = [
 
     #user app
     'users.apps.UsersConfig',
+    # jobber_work
+    'jobberwork',
 
     # Oauth
     'dj_rest_auth',

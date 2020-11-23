@@ -20,3 +20,10 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+
+class User_status(models.Model):
+    user = models.ForeignKey(User,on_delete = models.CASCADE)
+    deliveries_done = models.IntegerField()
+
+    def __str__(self):
+        return self.Title
