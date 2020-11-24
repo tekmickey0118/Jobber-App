@@ -7,9 +7,9 @@ class NewTask(models.Model):
     user = models.ForeignKey(User,related_name = 'user_requested',on_delete = models.CASCADE)
     Title = models.TextField(null=False)
     Description = models.TextField(null=False)
-    Time = models.TimeField(auto_now_add=False)
+    Time = models.TimeField(auto_now_add=True)
     Date = models.DateField(auto_now_add=True)#auto add date
-    location = models.IntegerField()
+    location = models.IntegerField(default = 0)
     active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -17,7 +17,7 @@ class NewTask(models.Model):
 
 class UserAssigned(models.Model):
     user = models.ForeignKey(User,on_delete = models.CASCADE)
-    delivery_user = models.OneToOneField(User, related_name = 'user_delivery', on_delete = models.CASCADE)
+    delivery_user = models.ForeignKey(User, related_name = 'user_delivery', on_delete = models.CASCADE)
     task = models.OneToOneField(NewTask, related_name='user_assigned', on_delete=models.CASCADE)
     
     def __str__(self):
@@ -27,7 +27,7 @@ class UserAssigned(models.Model):
 class UserPending(models.Model):
     user = models.ForeignKey(User,on_delete = models.CASCADE)
     task = models.OneToOneField(NewTask, related_name='user_pending', on_delete=models.CASCADE)
-    pending = models.BooleanField(default=False)
+    pending = models.BooleanField(default=True)
 
     def __str__(self):
         return self.task.Title
@@ -39,5 +39,3 @@ class UserCompleted(models.Model):
 
     def __str__(self):
         return self.task.Title
-
-
