@@ -14,17 +14,19 @@ class UserFormSerializer(serializers.ModelSerializer):
             "gender"
         )
 
+        def validate_username(self, response):
+            if not self._isValid(response):
+                raise serializers.ValidationError("Incorrect string type for field 'username'")
+            return response
+
+        def _isValid(self, user_response):
+            string_check = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+            if string_check.search(user_response) is None:
+                return True
+            return False
+
+
 class Base64ImageField(serializers.ImageField):
-    """
-    A Django REST framework field for handling image-uploads through raw post data.
-    It uses base64 for encoding and decoding the contents of the file.
-
-    Heavily based on
-    https://github.com/tomchristie/django-rest-framework/pull/1268
-
-    Updated for Django REST framework 3.
-    """
-
     def to_internal_value(self, data):
         from django.core.files.base import ContentFile
         import base64
@@ -72,6 +74,18 @@ class UserEditSerializer(serializers.ModelSerializer):
             "hostel_room",
             "phone",
         )
+        
+        def validate_username(self, response):
+            if not self._isValid(response):
+                raise serializers.ValidationError("Incorrect string type for field 'username'")
+            return response
+
+        def _isValid(self, user_response):
+            string_check = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+            if string_check.search(user_response) is None:
+                return True
+            return False
+
 
 class UserInfoSerializer(serializers.ModelSerializer):
 
