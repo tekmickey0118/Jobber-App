@@ -15,6 +15,8 @@ from .filters import *
 
 #all specific individual detail view tasks
 class IndividualTaskView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
     queryset = NewTask.objects.all()
     serializer_class = IndividualTaskSerializer
@@ -27,6 +29,8 @@ class IndividualTaskView(generics.ListAPIView):
 
 #user specific tasks
 class UserIndividualTaskView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
     queryset = NewTask.objects.all()
     serializer_class = IndividualTaskSerializer
@@ -45,6 +49,8 @@ class UserIndividualTaskView(generics.ListAPIView):
 
 #user edit view serialiser
 class UserEditIndividualTaskView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
     queryset = NewTask.objects.all()
     serializer_class = IndividualTaskSerializer
@@ -65,6 +71,9 @@ class UserEditIndividualTaskView(generics.ListAPIView):
 
 #shows all user tasks posted
 class UserAllTaskView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
     queryset = NewTask.objects.all()
     serializer_class = AllTaskSerializer
 
@@ -75,6 +84,9 @@ class UserAllTaskView(generics.ListAPIView):
 
 #shows all tasks
 class AllTaskView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    
     queryset = NewTask.objects.all()
     serializer_class = AllTaskSerializer
 
@@ -85,6 +97,8 @@ class AllTaskView(generics.ListAPIView):
 
 #creates new task
 class NewTaskView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = NewTask.objects.all()
     serializer_class = NewTaskSerializer
 
@@ -103,8 +117,11 @@ class NewTaskView(APIView):
 
 #requesting to accept the task
 class AcceptedTaskView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
     def post(self, request, *args, **kwargs):
+        
         accept_task_id = int(request.data['task_id'])
         tasks = NewTask.objects.get(pk = accept_task_id)
         
@@ -124,6 +141,8 @@ class AcceptedTaskView(APIView):
 
 #accepted_Task_view for user
 class PendingTaskUserView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = NewTask.objects.all()
     serializer_class = PendingTaskSerializer
 
@@ -134,6 +153,8 @@ class PendingTaskUserView(generics.ListAPIView):
 
 #accepted_Task_view for user
 class MyAcceptedTaskView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = NewTask.objects.all()
     serializer_class = PendingTaskSerializer
 
@@ -144,6 +165,8 @@ class MyAcceptedTaskView(generics.ListAPIView):
 
 #complete or close task request
 class CompletedTaskView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     def post(self, request, *args, **kwargs):
         accept_task_id = int(request.data['task_id'])
         tasks = NewTask.objects.get(pk = accept_task_id)
@@ -165,6 +188,8 @@ class CompletedTaskView(APIView):
 
 #Completed_Task_view for user
 class CompletedTaskUserView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = NewTask.objects.all()
     serializer_class = CompletedTaskSerializer
 
@@ -175,6 +200,8 @@ class CompletedTaskUserView(generics.ListAPIView):
 
 #cancel task request
 class CancelTaskView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
     def post(self, request, *args, **kwargs):
         accept_task_id = int(request.data['task_id'])
@@ -197,6 +224,8 @@ class CancelTaskView(APIView):
 
 #Uncompleted_Task_view for user
 class UncompletedTaskUserView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     queryset = NewTask.objects.all()
     serializer_class = CompletedTaskSerializer
 

@@ -12,6 +12,7 @@ from .serializers import *
 import base64
 import os
 from django.core.files import File 
+from django.core.files.uploadedfile import UploadedFile
 
 
 class CustomLoginView(LoginView):
@@ -74,7 +75,6 @@ def user_detail_view(request):
     return Response(serializer.data)
 
 
-from django.core.files.uploadedfile import UploadedFile
 @api_view(['PATCH','GET'])
 def user_edit(request, format = None):
     if request.method == 'PATCH':
@@ -89,3 +89,10 @@ def user_edit(request, format = None):
     if request.method == 'GET':
         serializer = UserEditSerializer(request.user)
         return Response(serializer.data)
+
+@api_view(['GET'])
+def username_exists(request):
+    if request.user.username:
+        return Response({"username_exists": True})
+    else:
+        return Response({"username_exists": False})
