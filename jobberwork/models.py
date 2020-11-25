@@ -9,9 +9,10 @@ class NewTask(models.Model):
     Description = models.TextField(null=False)
     Time = models.TimeField(auto_now_add=True)
     Date = models.DateField(auto_now_add=True)#auto add date
-    location = models.IntegerField(default = 0)
-    active = models.BooleanField(default=True)
+    location = ArrayField(models.FloatField(default=0))
     price = models.IntegerField(default=0)
+    active = models.BooleanField(default=True)
+
 
     def __str__(self):
         return self.Title

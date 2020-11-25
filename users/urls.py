@@ -13,4 +13,5 @@ urlpatterns = [
     path('me/info/', views.user_detail_view),
     path('me/edit/', views.user_edit),
     path('logout/', LogoutView.as_view()),
+    path('exists/', views.username_exists)
 ]+static(settings.MEDIA_URL, document_root=settings.STATIC_ROOT)

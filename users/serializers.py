@@ -25,7 +25,7 @@ class UserFormSerializer(serializers.ModelSerializer):
                 return True
             return False
 
-
+'''
 class Base64ImageField(serializers.ImageField):
     def to_internal_value(self, data):
         from django.core.files.base import ContentFile
@@ -64,7 +64,7 @@ class Base64ImageField(serializers.ImageField):
         extension = "jpg" if extension == "jpeg" else extension
 
         return extension
-
+'''
     
 class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
