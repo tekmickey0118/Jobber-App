@@ -71,6 +71,63 @@ class DeliveryUserSerializer(serializers.ModelSerializer):
         )
 
 
+class PendingSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        return obj.user.username
+
+    class Meta:
+        model = UserPending
+        fields = (
+            "id",
+            "user",
+            "task",
+            'pending',
+        )
+
+class PendingTaskSerializer(serializers.ModelSerializer):
+    user_pending = PendingSerializer(read_only = True)
+
+    class Meta:
+        model = NewTask
+        fields = (
+            "id",
+            "Title",
+            "price",
+            "user_pending"
+        )
+
+
+class CompletedSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        return obj.user.username
+
+    class Meta:
+        model = UserCompleted
+        fields = (
+            "id",
+            "user",
+            "task",
+            'completed',
+        )
+
+
+class CompletedTaskSerializer(serializers.ModelSerializer):
+    user_completed = CompletedSerializer(read_only = True)
+
+    class Meta:
+        model = NewTask
+        fields = (
+            "id",
+            "Title",
+            "price",
+            "user_completed"
+        )
+
+
 class UserSerializer(serializers.ModelSerializer):
     user_delivery = DeliveryUserSerializer(many = True, read_only = True)
     user_assigned = DeliveryUserSerializer(many = True, read_only = True)

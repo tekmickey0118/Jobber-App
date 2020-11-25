@@ -17,7 +17,7 @@ class NewTask(models.Model):
         return self.Title
 
 class UserAssigned(models.Model):
-    user = models.ForeignKey(User,on_delete = models.CASCADE)
+    user = models.ForeignKey(User,related_name = 'user_main',on_delete = models.CASCADE)
     delivery_user = models.ForeignKey(User, related_name = 'user_delivery', on_delete = models.CASCADE)
     task = models.OneToOneField(NewTask, related_name='user_assigned', on_delete=models.CASCADE)
     

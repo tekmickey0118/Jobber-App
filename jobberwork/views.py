@@ -123,25 +123,23 @@ class AcceptedTaskView(APIView):
 
 
 #accepted_Task_view for user
-class UserAcceptedViewTaskView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class PendingTaskUserView(generics.ListAPIView):
+    queryset = NewTask.objects.all()
+    serializer_class = PendingTaskSerializer
 
     def get_queryset(self):
-        queryset1 = User.objects.filter(id = self.request.user.id)
-        return queryset1
+        delivery_user_tasks = NewTask.objects.filter(user_pending__pending = True)
+        return (delivery_user_tasks)
 
 
 #accepted_Task_view for user
-class DeliveryUserAcceptedViewTaskView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class MyAcceptedTaskView(generics.ListAPIView):
+    queryset = NewTask.objects.all()
+    serializer_class = PendingTaskSerializer
 
     def get_queryset(self):
-        
-        delivery_user_tasks = User.objects.all()
-        
-        return delivery_user_tasks
+        delivery_user_tasks = NewTask.objects.filter(user_assigned__delivery_user = self.request.user.id ,user_pending__pending = True)
+        return (delivery_user_tasks)
 
 
 #complete or close task request
@@ -165,6 +163,16 @@ class CompletedTaskView(APIView):
             return Response({'message':'Task has already been completed'})
 
 
+#Completed_Task_view for user
+class CompletedTaskUserView(generics.ListAPIView):
+    queryset = NewTask.objects.all()
+    serializer_class = CompletedTaskSerializer
+
+    def get_queryset(self):
+        delivery_user_tasks = NewTask.objects.filter(user_completed__completed = True)
+        return (delivery_user_tasks)
+
+
 #cancel task request
 class CancelTaskView(APIView):
 
@@ -185,3 +193,14 @@ class CancelTaskView(APIView):
         
         else:
             return Response({'message':'Task is not active'}) #workding can be made better
+
+
+#Uncompleted_Task_view for user
+class UncompletedTaskUserView(generics.ListAPIView):
+    queryset = NewTask.objects.all()
+    serializer_class = CompletedTaskSerializer
+
+    def get_queryset(self):
+        delivery_user_tasks = NewTask.objects.filter(user_completed__completed = False)
+        return (delivery_user_tasks)
+

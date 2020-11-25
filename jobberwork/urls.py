@@ -11,9 +11,14 @@ urlpatterns = [
     path('task/edit/<int:id>/', UserEditIndividualTaskView.as_view()),
 
     path('task/accept/', AcceptedTaskView.as_view()),
-    path('task/accept/delivery', DeliveryUserAcceptedViewTaskView.as_view()),
+    path('task/accept/delivery', PendingTaskUserView.as_view()),
+    path('task/accept/delivery/me', MyAcceptedTaskView.as_view()),
 
     path('task/complete/', CompletedTaskView.as_view()),
+    path('task/complete/all', CompletedTaskUserView.as_view()),
+
     path('task/cancel/', CancelTaskView.as_view()),
+    path('task/cancel/all', UncompletedTaskUserView.as_view()),
+
 
 ]
