@@ -101,14 +101,14 @@ class NewTaskView(APIView):
         return Response({'message':'user_task_created successfully'})
 
 
-#requesting to accept the task errorrrrrrrrrrrrrrrrrr
+#requesting to accept the task
 class AcceptedTaskView(APIView):
 
     def post(self, request, *args, **kwargs):
-        accept_task_id = int(request.data['id'])
+        accept_task_id = int(request.data['task_id'])
         tasks = NewTask.objects.get(pk = accept_task_id)
         
-        if tasks.active is False:
+        if tasks.active:
             tasks.active = False
             assigned_object = UserAssigned.objects.create(user = tasks.user, delivery_user = self.request.user, task = tasks)
             pending_object = UserPending.objects.create(user = tasks.user, task = tasks, pending = True)
@@ -138,9 +138,50 @@ class DeliveryUserAcceptedViewTaskView(generics.ListAPIView):
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        queryset1 = User.objects.filter(delivery_user_id = self.request.user.id)
-        return queryset1
+        
+        delivery_user_tasks = User.objects.all()
+        
+        return delivery_user_tasks
 
+
+#complete or close task request
 class CompletedTaskView(APIView):
     def post(self, request, *args, **kwargs):
+        accept_task_id = int(request.data['task_id'])
+        tasks = NewTask.objects.get(pk = accept_task_id)
+        assigned_task = UserPending.objects.get(task_id = accept_task_id)
 
+        if not tasks.active:
+            assigned_task.pending = False
+            completed_object = UserCompleted.objects.create(user = tasks.user, task = tasks, completed = True)
+
+            completed_object.save()
+
+            self.request.user.completed_tasks += 1
+            assigned_task.save(update_fields=['pending'])
+            return Response({'message':'Task Completed successfully'})
+
+        else:
+            return Response({'message':'Task has already been completed'})
+
+
+#cancel task request
+class CancelTaskView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        accept_task_id = int(request.data['task_id'])
+        tasks = NewTask.objects.get(pk = accept_task_id)
+        assigned_task = UserPending.objects.get(task_id = accept_task_id)
+
+        if not tasks.active:
+            assigned_task.pending = False
+            completed_object = UserCompleted.objects.create(user = tasks.user, task = tasks, completed = False)
+
+            completed_object.save()
+
+            self.request.user.uncompleted_tasks += 1
+            assigned_task.save(update_fields=['pending'])
+            return Response({'message':'Task Cancelled Completed successfully'})
+        
+        else:
+            return Response({'message':'Task is not active'}) #workding can be made better

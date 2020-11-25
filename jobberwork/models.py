@@ -11,6 +11,7 @@ class NewTask(models.Model):
     Date = models.DateField(auto_now_add=True)#auto add date
     location = models.IntegerField(default = 0)
     active = models.BooleanField(default=True)
+    price = models.IntegerField(default=0)
 
     def __str__(self):
         return self.Title

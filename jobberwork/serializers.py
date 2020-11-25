@@ -14,7 +14,8 @@ class NewTaskSerializer(serializers.ModelSerializer):
             "Time",
             "Date",
             "location",
-            "active"
+            "active",
+            "price",
         )
 
 class AllTaskSerializer(serializers.ModelSerializer):
@@ -25,7 +26,8 @@ class AllTaskSerializer(serializers.ModelSerializer):
             "Title",
             "Time",
             "location",
-            "active"
+            "active",
+            "price",
         )
 
 
@@ -39,48 +41,10 @@ class IndividualTaskSerializer(serializers.ModelSerializer):
             "Time",
             "Date",
             "location",
-            "active"
+            "active",
+            "price",
         )
 
-class DeleteTaskSerializer(serializers.ModelSerializer):
-    Time = serializers.TimeField(format="%H:%M", input_formats=['%H:%M'])
-    class Meta:
-        model = NewTask
-        fields = (
-            "id",
-            "Title",
-            "Description",
-            "Time",
-            "Date",
-            "location",
-            "active"
-        )
-
-
-class CompletedTaskSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserCompleted
-        fields = (
-            "completed"
-        )
-
-class DeliveryUserAcceptSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserAssigned
-        fields = (
-            "user",
-            "delivery_user",
-            "task",
-        )
-
-class UserDeliveryUserAcceptSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
-    user_assigned = DeliveryUserAcceptSerializer()
-    class Meta:
-        model = NewTask
-        fields = (
-            "user",
-            "user_assigned",
-        )
 
 
 class DeliveryUserSerializer(serializers.ModelSerializer):
@@ -108,8 +72,8 @@ class DeliveryUserSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    user_delivery = DeliveryUserSerializer(read_only = True)
-    user_assigned = DeliveryUserSerializer(read_only = True)
+    user_delivery = DeliveryUserSerializer(many = True, read_only = True)
+    user_assigned = DeliveryUserSerializer(many = True, read_only = True)
 
     class Meta:
         model = User
@@ -120,14 +84,3 @@ class UserSerializer(serializers.ModelSerializer):
             "user_assigned"
         )
 
-class UserAcceptSerializer(serializers.ModelSerializer):
-    user_delivery = DeliveryUserSerializer(read_only = True)
-    user_assigned = DeliveryUserSerializer(read_only = True, source = 'delivery_user.username')
-
-    class Meta:
-        model = User
-        fields = (
-            "username",
-            "user_delivery",
-            "user_assigned"
-        )
