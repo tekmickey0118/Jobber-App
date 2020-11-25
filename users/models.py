@@ -12,6 +12,9 @@ class User(AbstractUser):
     phone = models.IntegerField(default = None, null = True)
     gender = models.TextField()
     objects = UserManager()
+    total_tasks = models.IntegerField(default = 0)
+    completed_tasks = models.IntegerField(default = 0)
+    uncompleted_tasks = models.IntegerField(default = 0)
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
@@ -20,3 +23,10 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+#to put tasks integer field to this model----------
+class User_status(models.Model):
+    user = models.ForeignKey(User,on_delete = models.CASCADE)
+    deliveries_done = models.IntegerField()
+
+    def __str__(self):
+        return self.Title
