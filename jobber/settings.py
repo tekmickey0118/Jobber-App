@@ -28,7 +28,7 @@ if env.bool('DJANGO_READ_DOT_ENV_FILE', default=True):
         env.read_env(env_file)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('DJANGO_SECRET_KEY')
+SECRET_KEY = '$h7=!ie8*clz36is7b^#+nt!&y&5pj4!2yg+qk1rvuj2_zh-ly'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
