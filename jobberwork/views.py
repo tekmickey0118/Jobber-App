@@ -92,6 +92,9 @@ class NewTaskView(APIView):
         request.data._mutable = True
         request.data['active'] = True
         request.data._mutable = False
+        
+        self.request.user.total_tasks += 1
+        
         serializer = NewTaskSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
@@ -100,31 +103,44 @@ class NewTaskView(APIView):
 
 #requesting to accept the task errorrrrrrrrrrrrrrrrrr
 class AcceptedTaskView(APIView):
-    queryset = UserAssigned.objects.all()
-    serializer_class = UserDeliveryUserAcceptSerializer
 
-    def get_queryset(request):
-        queryset1 = NewTask.objects.filter(user_assigned=F('id'))
-        return queryset1
+    def post(self, request, *args, **kwargs):
+        accept_task_id = int(request.data['id'])
+        tasks = NewTask.objects.get(pk = accept_task_id)
+        
+        if tasks.active is False:
+            tasks.active = False
+            assigned_object = UserAssigned.objects.create(user = tasks.user, delivery_user = self.request.user, task = tasks)
+            pending_object = UserPending.objects.create(user = tasks.user, task = tasks, pending = True)
 
-    def put(self, request, *args, **kwargs):
-        request.data._mutable = True
-        print(request.data)
-        request.data['user'] = str(self.request.user.id)
-        request.data['user_assigned.user'] = str(self.request.user.id)
-        request.data['user_assigned.delivery_user'] = str(self.request.user.id)
-        serializer = UserDeliveryUserAcceptSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({'message':'Accepted this Request'})
+            assigned_object.save()
+            pending_object.save()
+            tasks.save(update_fields=['active'])
+            return Response({'message':'Accepted this Request'})
+
+        else:
+            return Response({'This task has already been accepted..'})
 
 
 #accepted_Task_view for user
-class AcceptedViewTaskView(generics.ListAPIView):
+class UserAcceptedViewTaskView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def get_queryset(self):
         queryset1 = User.objects.filter(id = self.request.user.id)
         return queryset1
+
+
+#accepted_Task_view for user
+class DeliveryUserAcceptedViewTaskView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        queryset1 = User.objects.filter(delivery_user_id = self.request.user.id)
+        return queryset1
+
+class CompletedTaskView(APIView):
+    def post(self, request, *args, **kwargs):
 

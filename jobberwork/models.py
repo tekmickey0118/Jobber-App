@@ -27,7 +27,7 @@ class UserAssigned(models.Model):
 class UserPending(models.Model):
     user = models.ForeignKey(User,on_delete = models.CASCADE)
     task = models.OneToOneField(NewTask, related_name='user_pending', on_delete=models.CASCADE)
-    pending = models.BooleanField(default=True)
+    pending = models.BooleanField(default=False)
 
     def __str__(self):
         return self.task.Title
