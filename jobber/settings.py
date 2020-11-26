@@ -150,7 +150,6 @@ DATABASES = {
 }
 
 
-
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
