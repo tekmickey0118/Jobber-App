@@ -1,7 +1,7 @@
 asgiref==3.2.10
 cryptography==2.9.2
 dj-rest-auth==1.1.2
-Django==3.0.8
+Django==2.2.9
 django-allauth==0.43.0
 django-braces==1.14.0
 django-environ==0.4.5
