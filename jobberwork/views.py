@@ -14,8 +14,7 @@ from rest_framework.response import Response
 
 #all specific individual detail view tasks
 class IndividualTaskView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+
 
     queryset = NewTask.objects.all()
     serializer_class = IndividualTaskSerializer
@@ -68,7 +67,7 @@ class UserEditIndividualTaskView(generics.ListAPIView):
         return Response({'status':'200','message':'User task edited successfully'})
 
 
-#shows all user tasks posted
+#shows all live user tasks posted
 class UserAllTaskView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
@@ -138,7 +137,7 @@ class AcceptedTaskView(APIView):
             return Response({'This task has already been accepted..'})
 
 
-#accepted_Task_view for user
+#accepted_Task_view for delivery_user
 class PendingTaskUserView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
@@ -150,7 +149,7 @@ class PendingTaskUserView(generics.ListAPIView):
         return (delivery_user_tasks)
 
 
-#accepted_Task_view for user
+#accepted_Task_view for self user delivering
 class MyAcceptedTaskView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]

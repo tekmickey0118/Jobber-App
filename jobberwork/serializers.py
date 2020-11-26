@@ -19,10 +19,15 @@ class NewTaskSerializer(serializers.ModelSerializer):
         )
 
 class AllTaskSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        return obj.user.username
     class Meta:
         model = NewTask
         fields = (
             "id",
+            "user",
             "Title",
             "Time",
             "location",
@@ -32,11 +37,16 @@ class AllTaskSerializer(serializers.ModelSerializer):
 
 
 class IndividualTaskSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        return obj.user.username,obj.user.phone,obj.user.hostel_room
     class Meta:
         model = NewTask
         fields = (
             "id",
             "Title",
+            "user",
             "Description",
             "Time",
             "Date",
@@ -45,6 +55,18 @@ class IndividualTaskSerializer(serializers.ModelSerializer):
             "price",
         )
 
+
+class UserIndividualTaskSerializer(serializers.ModelSerializer):
+    user_assigned = IndividualTaskSerializer(many = True, read_only = True)
+
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "phone",
+            "user_delivery",
+            "user_assigned"
+        )
 
 
 class DeliveryUserSerializer(serializers.ModelSerializer):
