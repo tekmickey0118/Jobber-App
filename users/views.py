@@ -14,7 +14,6 @@ import os
 from django.core.files import File 
 from django.core.files.uploadedfile import UploadedFile
 
-
 class CustomLoginView(LoginView):
     def get_response(self):
         serializer_class = self.get_response_serializer()
@@ -32,12 +31,19 @@ class CustomLoginView(LoginView):
             serializer = serializer_class(
                 instance=self.token, context=self.get_serializer_context()
             )
+        domain_false = {'domain_vit': False}
+        domain_false = {'domain_vit': True}
 
         if self.user.username == '':
             check = {'username_exists': False}
         else:
             check = {'username_exists': True}
-        response = Response({**serializer.data, **check}, status=status.HTTP_200_OK)
+
+        if self.user.email.split('@')[1] == "vitstudent.ac.in":
+            response = Response({**serializer.data, **check,**domain_true}, status=status.HTTP_200_OK)
+        else:
+            response = Response({**serializer.data, **domain_false}, status=status.HTTP_200_OK)
+            User.objects.get(id = self.request.user.id).delete()
         return response
 
 

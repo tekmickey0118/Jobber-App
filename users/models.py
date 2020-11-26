@@ -11,10 +11,10 @@ class User(AbstractUser):
     hostel_room = models.TextField()
     phone = models.IntegerField(default = None, null = True)
     gender = models.TextField()
-    objects = UserManager()
     total_tasks = models.IntegerField(default = 0)
     completed_tasks = models.IntegerField(default = 0)
     uncompleted_tasks = models.IntegerField(default = 0)
+    objects = UserManager()
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'

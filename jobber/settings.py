@@ -142,13 +142,20 @@ SWAGGER_SETTINGS = {
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        'NAME': 'jobber',
+        'USER': 'jobber',
+        'PASSWORD': 'jobber123',
+        'HOST': 'localhost',
+        'PORT': 5432,
+        'CONN_MAX_AGE': 60
     }
 }
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {'hd': 'vitstudet.ac.in'}
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ['vitstudent.ac.in']
 
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -158,13 +165,11 @@ SOCIALACCOUNT_PROVIDERS = {
             'email',
         ],
         'AUTH_PARAMS': {
-            'access_type': 'offline',
+            'access_type': 'online',
+            'hd': 'vitstudent.ac.in',
         },
     },
 }
-
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ['vitstudent.ac.in']
 
 
 SOCIALACCOUNT_AUTO_SIGNUP = True
