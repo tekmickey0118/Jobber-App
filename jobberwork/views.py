@@ -77,11 +77,11 @@ class UserAllTaskView(generics.ListAPIView):
     serializer_class = AllTaskSerializer
 
     def get_queryset(self):
-        task_get = NewTask.objects.filter(user = self.request.user).order_by('-id')
+        task_get = NewTask.objects.filter(user = self.request.user, active = True).order_by('-id')
         return task_get
 
 
-#shows all tasks
+#shows all live tasks for all users
 class AllTaskView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
@@ -90,7 +90,7 @@ class AllTaskView(generics.ListAPIView):
     serializer_class = AllTaskSerializer
 
     def get_queryset(self):
-        task_get = NewTask.objects.filter().order_by('-id')
+        task_get = NewTask.objects.filter(active = True).order_by('-id')
         return task_get
 
 

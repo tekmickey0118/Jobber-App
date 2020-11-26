@@ -2,7 +2,7 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('task/new/', NewTaskView.as_view()),
+    path('task/new/make', NewTaskView.as_view()),
 
     path('task/all/', AllTaskView.as_view()),
     path('task/all/me/', UserAllTaskView.as_view()),
