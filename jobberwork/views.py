@@ -129,7 +129,8 @@ class NewTaskView(APIView):
 
 #requesting to accept the task
 class AcceptedTaskView(APIView):
-    
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
     def post(self, request, *args, **kwargs):
         
