@@ -154,6 +154,45 @@ class AcceptedTaskView(APIView):
             return Response({'This task has already been accepted..'})
 
 
+#itempicked request
+class ItemPickedView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request, *args, **kwargs):
+        
+        accept_task_id = int(request.data['task_id'])
+        tasks = NewTask.objects.get(pk = accept_task_id)
+        picked = ItemPicked.objects.filter(task = tasks, picked = True).exists()
+
+        if not picked:
+            if not tasks.user == self.request.user:
+                item_picked = ItemPicked.objects.create(user = tasks.user, task = tasks, picked = True)
+                item_picked.save()
+                return Response({'message':'Picked the item'})
+            else:
+                return Response({'message': 'You are not allowe to perform this action'})
+        else:
+            return Response({'Item has been picked already'})
+
+
+#item_picked status
+class ItemPickedStatusView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        
+        accept_task_id = int(request.data['task_id'])
+        tasks = NewTask.objects.get(pk = accept_task_id)
+        assigned = User.objects.get(user_delivery__task_id = accept_task_id)
+        picked = ItemPicked.objects.filter(task = tasks, picked = True).exists()
+        print(assigned)
+        if picked:
+            return Response({'message':'your item has been picked up from the destination...','task':tasks.Title, 'task_location': tasks.location, 'delivery_user': assigned.username}) #maybe something else like on your way...
+        else:
+            return Response({'message':'Item has not been picked'})
+
+    
+
 #accepted_Task_view for delivery_user
 class PendingTaskUserView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
