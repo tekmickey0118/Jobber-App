@@ -74,6 +74,7 @@ class UserEditSerializer(serializers.ModelSerializer):
             "username",
             "hostel_room",
             "phone",
+            "profile_pic"
         )
         
         def validate_username(self, response):
