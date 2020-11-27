@@ -2,7 +2,7 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('task/new/make', NewTaskView.as_view()),
+    path('task/new/make/', NewTaskView.as_view()),
 
     path('task/all/', AllTaskView.as_view()),
     path('task/all/me/', UserAllTaskView.as_view()),
@@ -11,20 +11,20 @@ urlpatterns = [
     path('task/edit/<int:id>/', UserEditIndividualTaskView.as_view()),
 
     path('task/accept/', AcceptedTaskView.as_view()),
-    path('task/accept/delivery', PendingTaskUserView.as_view()),
-    path('task/accept/delivery/me', MyAcceptedTaskView.as_view()),
+    path('task/accept/delivery/', PendingTaskUserView.as_view()),
+    path('task/accept/delivery/me/', MyAcceptedTaskView.as_view()),
     
     path('task/accept/delivery/<int:id>/', IndividualAcceptTaskView.as_view()),
     #path('task/accept/delivery/me/<int:id>/', IndividualDeliveryPersonAcceptTaskView.as_view()),
 
     path('task/picked/', ItemPickedView.as_view()),
-    path('task/picked/status', ItemPickedStatusView.as_view()),
+    path('task/picked/status/', ItemPickedStatusView.as_view()),
 
     path('task/complete/', CompletedTaskView.as_view()),
-    path('task/complete/all', CompletedTaskUserView.as_view()),
+    path('task/complete/all/', CompletedTaskUserView.as_view()),
 
     path('task/cancel/', CancelTaskView.as_view()),
-    path('task/cancel/all', UncompletedTaskUserView.as_view()),
+    path('task/cancel/all/', UncompletedTaskUserView.as_view()),
 
 
 ]
