@@ -63,7 +63,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     
     #swagger_docs
-    'coreapi',
     'rest_framework_swagger',
 
     #other_django_apps    

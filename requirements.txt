@@ -23,4 +23,3 @@ whitenoise==3.2
 pillow
 drf_writable_nested
 dj-database-url
-coreapi 2.3.3
