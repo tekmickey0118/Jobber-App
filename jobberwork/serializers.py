@@ -157,6 +157,8 @@ class CompletedSerializer(serializers.ModelSerializer):
 
 class CompletedTaskSerializer(serializers.ModelSerializer):
     user_completed = CompletedSerializer(read_only = True)
+    user_delivery = DeliveryUserSerializer(many = True, read_only = True)
+    user_assigned = DeliveryUserSerializer(many = True, read_only = True)
 
     class Meta:
         model = NewTask
@@ -164,7 +166,9 @@ class CompletedTaskSerializer(serializers.ModelSerializer):
             "id",
             "Title",
             "price",
-            "user_completed"
+            "user_completed",
+            "user_delivery",
+            "user_assgigned"
         )
 
 

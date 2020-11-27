@@ -3,7 +3,7 @@ from django.utils import timezone
 
 from .serializers import *
 from .models import *
-from users.models import User
+from users.models import User, User_status
 
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -177,22 +177,35 @@ class MyAcceptedTaskView(generics.ListAPIView):
 
 #complete or close task request
 class CompletedTaskView(APIView):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+    
     def post(self, request, *args, **kwargs):
         accept_task_id = int(request.data['task_id'])
         tasks = NewTask.objects.get(pk = accept_task_id)
         assigned_task = UserPending.objects.get(task_id = accept_task_id)
+        pending_user = UserAssigned.objects.get(task_id = accept_task_id)
 
         if not tasks.active:
-            assigned_task.pending = False
-            completed_object = UserCompleted.objects.create(user = tasks.user, task = tasks, completed = True)
 
-            completed_object.save()
+            if assigned_task.pending:
+                assigned_task.pending = False
+                completed_object = UserCompleted.objects.create(user = tasks.user, task = tasks, completed = True)
+                
+                if User.objects.filter(user_delivery = pending_user.delivery_user.id).exists():
+                    delivery_user = User.objects.get(user_delivery = pending_user.delivery_user.id)
+                    delivery_user.user_status.deliveries_done += 1
+                    delivery_user.user_status.save(update_fields = ['deliveries_done'])
 
-            self.request.user.completed_tasks += 1
-            assigned_task.save(update_fields=['pending'])
-            return Response({'message':'Task Completed successfully'})
+                else:
+                    delivery_user = User_status.objects.create(user = tasks.user, deliveries_done = 1)
+                    delivery_user.save()
+                    
+                completed_object.save()
+                self.request.user.completed_tasks += 1
+                assigned_task.save(update_fields=['pending'])
+                return Response({'message':'Task Completed successfully'})
+                
+            else:
+                return Response({'message':'task is not pending anymore'})
 
         else:
             return Response({'message':'Task has already been completed'})

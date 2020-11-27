@@ -44,10 +44,11 @@ class User(AbstractUser):
         user.image = path
         user.save()
 
+
 #to put tasks integer field to this model----------
 class User_status(models.Model):
-    user = models.ForeignKey(User,on_delete = models.CASCADE)
-    deliveries_done = models.IntegerField()
+    user = models.OneToOneField(User,related_name = 'user_status',on_delete = models.CASCADE)
+    deliveries_done = models.IntegerField(default = 0)
 
     def __str__(self):
-        return self.Title
+        return self.user.username
