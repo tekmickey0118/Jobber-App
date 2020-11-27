@@ -18,7 +18,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=255, null=False)
     profile_pic = models.ImageField(upload_to = '', blank = True)
     email = models.EmailField(max_length=255, unique=True)
-    reg_number = models.TextField(max_length = 9, unique = True) #capitals
+    reg_number = models.TextField(max_length = 9) #capitals
     hostel_room = models.TextField()
     phone = models.CharField(max_length = 12)
     gender = models.TextField(choices=GENDER_CHOICES)

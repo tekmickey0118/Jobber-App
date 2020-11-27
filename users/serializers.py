@@ -70,10 +70,10 @@ class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            "id",
             "username",
             "hostel_room",
             "phone",
-            "profile_pic",
         )
         
         def validate_username(self, response):

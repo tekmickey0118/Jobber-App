@@ -32,7 +32,7 @@ class CustomLoginView(LoginView):
                 instance=self.token, context=self.get_serializer_context()
             )
         domain_false = {'domain_vit': False}
-        domain_false = {'domain_vit': True}
+        domain_true= {'domain_vit': True}
 
         if self.user.username == '':
             check = {'username_exists': False}
@@ -80,7 +80,7 @@ def user_detail_view(request):
     serializer = UserInfoSerializer(request.user)
     return Response(serializer.data)
 
-
+#erorrrrrrrr
 @api_view(['PATCH','GET'])
 def user_edit(request, format = None):
     if request.method == 'PATCH':

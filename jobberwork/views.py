@@ -184,10 +184,12 @@ class ItemPickedStatusView(APIView):
         accept_task_id = int(request.data['task_id'])
         tasks = NewTask.objects.get(pk = accept_task_id)
         assigned = User.objects.get(user_delivery__task_id = accept_task_id)
-        picked = ItemPicked.objects.filter(task = tasks, picked = True).exists()
+        picked = ItemPicked.objects.filter(task = tasks, picked = True)
+        picked_object = ItemPicked.objects.get(task = tasks)
         print(assigned)
-        if picked:
-            return Response({'message':'your item has been picked up from the destination...','task':tasks.Title, 'task_location': tasks.location, 'delivery_user': assigned.username}) #maybe something else like on your way...
+        if picked.exists():
+            return Response({'message':'your item has been picked up from the destination...','task':tasks.Title, 'task_location': tasks.location,'time_picked': picked_object.Time, 'delivery_user': assigned.username,
+            'delivery_user_phone': assigned.phone}) #maybe something else like on your way...
         else:
             return Response({'message':'Item has not been picked'})
 

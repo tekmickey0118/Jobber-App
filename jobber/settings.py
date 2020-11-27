@@ -154,8 +154,6 @@ DATABASES = {
     }
 }
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {'hd': 'vitstudet.ac.in'}
-SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ['vitstudent.ac.in']
 
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -166,7 +164,6 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         'AUTH_PARAMS': {
             'access_type': 'online',
-            'hd': 'vitstudent.ac.in',
         },
     },
 }
