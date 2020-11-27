@@ -98,7 +98,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
             "phone",
             "email",
             "total_tasks",
-            "completed_Tasks",
+            "completed_tasks",
             "uncompleted_tasks",
 
         )

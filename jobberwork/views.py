@@ -25,6 +25,19 @@ class IndividualTaskView(generics.ListAPIView):
         queryset1 = NewTask.objects.filter(id = self.kwargs['id'])
         return queryset1
 
+#all specific individual detail view tasks after accepting
+class IndividualAcceptTaskView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    queryset = NewTask.objects.all()
+    serializer_class = IndividualAcceptTaskSerializer
+    model = NewTask
+
+    def get_queryset(self):
+        queryset1 = NewTask.objects.filter(id = self.kwargs['id'])
+        return queryset1
+
 
 #user specific tasks
 class UserIndividualTaskView(generics.ListAPIView):
@@ -43,7 +56,7 @@ class UserIndividualTaskView(generics.ListAPIView):
     def delete(self, request, *args, **kwargs):
         delete_task = self.get_object()
         delete_task.delete()
-        return Response({'message':'task delete successfully'})
+        return Response({'message':'task deleted successfully'})
 
 
 #user edit view serialiser
