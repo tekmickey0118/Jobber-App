@@ -29,7 +29,7 @@ class IndividualTaskView(generics.ListAPIView):
 class IndividualAcceptTaskView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
-
+    
     queryset = NewTask.objects.all()
     serializer_class = IndividualAcceptTaskSerializer
     model = NewTask
@@ -43,7 +43,7 @@ class IndividualAcceptTaskView(generics.ListAPIView):
 class UserIndividualTaskView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
-
+    
     queryset = NewTask.objects.all()
     serializer_class = IndividualTaskSerializer
     model = NewTask
@@ -55,8 +55,11 @@ class UserIndividualTaskView(generics.ListAPIView):
 
     def delete(self, request, *args, **kwargs):
         delete_task = self.get_object()
-        delete_task.delete()
-        return Response({'message':'task deleted successfully'})
+        if delete_task.active:
+            delete_task.delete()
+            return Response({'message':'task deleted successfully'})
+        else:
+            return Response({'message':'Task has been accepted, if you want to close this task, close this request from pending tab'})
 
 
 #user edit view serialiser

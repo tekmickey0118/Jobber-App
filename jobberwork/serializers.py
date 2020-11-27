@@ -54,25 +54,6 @@ class IndividualTaskSerializer(serializers.ModelSerializer):
             "price",
         )
 
-class IndividualAcceptTaskSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
-
-    def get_user(self, obj):
-        return obj.user.username,obj.user.phone,obj.user.hostel_room,obj.user.reg_number
-    class Meta:
-        model = NewTask
-        fields = (
-            "id",
-            "Title",
-            "user",
-            "Description",
-            "Time",
-            "Date",
-            "location",
-            "active",
-            "price",
-        )
-
 
 class UserIndividualTaskSerializer(serializers.ModelSerializer):
     user_assigned = IndividualTaskSerializer(many = True, read_only = True)
@@ -109,6 +90,30 @@ class DeliveryUserSerializer(serializers.ModelSerializer):
             "delivery_user",
             "task"
         )
+
+
+class IndividualAcceptTaskSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+    user_assigned = DeliveryUserSerializer(read_only = True)
+
+    def get_user(self, obj):
+        return obj.user.username,obj.user.phone,obj.user.hostel_room,obj.user.reg_number
+
+    class Meta:
+        model = NewTask
+        fields = (
+            "id",
+            "Title",
+            "user",
+            "Description",
+            "Time",
+            "Date",
+            "location",
+            "active",
+            "price",
+            "user_assigned",
+        )
+
 
 
 class PendingSerializer(serializers.ModelSerializer):
