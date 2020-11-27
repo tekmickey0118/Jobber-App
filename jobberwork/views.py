@@ -129,8 +129,7 @@ class NewTaskView(APIView):
 
 #requesting to accept the task
 class AcceptedTaskView(APIView):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+    
 
     def post(self, request, *args, **kwargs):
         
@@ -138,15 +137,18 @@ class AcceptedTaskView(APIView):
         tasks = NewTask.objects.get(pk = accept_task_id)
         
         if tasks.active:
-            tasks.active = False
-            assigned_object = UserAssigned.objects.create(user = tasks.user, delivery_user = self.request.user, task = tasks)
-            pending_object = UserPending.objects.create(user = tasks.user, task = tasks, pending = True)
+            if not tasks.user == self.request.user:
+                tasks.active = False
+                assigned_object = UserAssigned.objects.create(user = tasks.user, delivery_user = self.request.user, task = tasks)
+                pending_object = UserPending.objects.create(user = tasks.user, task = tasks, pending = True)
 
-            assigned_object.save()
-            pending_object.save()
-            tasks.save(update_fields=['active'])
-            return Response({'message':'Accepted this Request'})
+                assigned_object.save()
+                pending_object.save()
+                tasks.save(update_fields=['active'])
+                return Response({'message':'Accepted this Request'})
 
+            else:
+                return Response({'message': 'You can not accept your own task....'})
         else:
             return Response({'This task has already been accepted..'})
 
@@ -177,6 +179,8 @@ class MyAcceptedTaskView(generics.ListAPIView):
 
 #complete or close task request
 class CompletedTaskView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     
     def post(self, request, *args, **kwargs):
         accept_task_id = int(request.data['task_id'])
