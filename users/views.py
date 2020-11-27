@@ -96,9 +96,18 @@ def user_edit(request, format = None):
         serializer = UserEditSerializer(request.user)
         return Response(serializer.data)
 
+
 @api_view(['GET'])
 def username_exists(request):
     if request.user.username:
         return Response({"username_exists": True})
     else:
         return Response({"username_exists": False})
+
+
+@api_view(['GET'])
+def reg_exists(request):
+    if request.user.reg_number:
+        return Response({"reg_exists": True})
+    else:
+        return Response({"reg_exists": False})

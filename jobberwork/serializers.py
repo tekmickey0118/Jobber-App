@@ -75,10 +75,10 @@ class DeliveryUserSerializer(serializers.ModelSerializer):
     task = serializers.SerializerMethodField()
 
     def get_user(self, obj):
-        return obj.user.username
+        return obj.user.username,obj.user.phone
 
     def get_delivery_user(self, obj):
-        return obj.delivery_user.username
+        return obj.delivery_user.username, obj.delivery_user.phone
 
     def get_task(self, obj):
         return obj.task.Title
