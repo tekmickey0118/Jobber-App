@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, User_status
 
 
 class UserFormSerializer(serializers.ModelSerializer):
@@ -68,29 +68,28 @@ class UserEditSerializer(serializers.ModelSerializer):
             "profile_pic"
         )
         
-        def validate_username(self, response):
-            if not self._isValid(response):
-                raise serializers.ValidationError("Incorrect string type for field 'username'")
-            return response
 
-        def _isValid(self, user_response):
-            string_check = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
-            if string_check.search(user_response) is None:
-                return True
-            return False
 
+class UserStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User_status
+        fields = (
+            "deliveries_done",
+        )
 
 class UserInfoSerializer(serializers.ModelSerializer):
+    user_status = UserStatusSerializer(read_only = True)
 
     class Meta:
         model = User
         fields = (
-            "username",
+            "first_name",
             "reg_number",
             "phone",
             "email",
             "total_tasks",
             "completed_tasks",
             "uncompleted_tasks",
-
+            "user_status",
         )

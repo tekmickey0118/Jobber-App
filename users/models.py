@@ -35,7 +35,7 @@ class User(AbstractUser):
         return self.email
 
     def save_profile_pic(user):
-        url = username
+        url = first_name
         filename = user.id + mimettypes.guess_extension(urllib.request.urlopen(url).headers['content-type'])
         path = os.path.join(settings.MEDIA_ROOT, filename)
 

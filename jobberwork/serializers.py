@@ -22,7 +22,7 @@ class AllTaskSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 
     def get_user(self, obj):
-        return obj.user.username
+        return obj.user.first_name
     class Meta:
         model = NewTask
         fields = (
@@ -39,7 +39,7 @@ class IndividualTaskSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 
     def get_user(self, obj):
-        return obj.user.username,obj.user.reg_number
+        return obj.user.first_name,obj.user.reg_number
     class Meta:
         model = NewTask
         fields = (
@@ -61,7 +61,7 @@ class UserIndividualTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "username",
+            "first_name",
             "phone",
             "user_delivery",
             "user_assigned"
@@ -74,10 +74,10 @@ class DeliveryUserSerializer(serializers.ModelSerializer):
     task = serializers.SerializerMethodField()
 
     def get_user(self, obj):
-        return obj.user.username,obj.user.phone
+        return obj.user.first_name,obj.user.phone
 
     def get_delivery_user(self, obj):
-        return obj.delivery_user.username, obj.delivery_user.phone
+        return obj.delivery_user.first_name, obj.delivery_user.phone
 
     def get_task(self, obj):
         return obj.task.Title
@@ -97,7 +97,7 @@ class IndividualAcceptTaskSerializer(serializers.ModelSerializer):
     user_assigned = DeliveryUserSerializer(read_only = True)
 
     def get_user(self, obj):
-        return obj.user.username,obj.user.phone,obj.user.hostel_room,obj.user.reg_number
+        return obj.user.first_name,obj.user.phone,obj.user.hostel_room,obj.user.reg_number
 
     class Meta:
         model = NewTask
@@ -120,7 +120,7 @@ class PendingSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 
     def get_user(self, obj):
-        return obj.user.username
+        return obj.user.first_name
 
     class Meta:
         model = UserPending
@@ -148,7 +148,7 @@ class CompletedSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 
     def get_user(self, obj):
-        return obj.user.username
+        return obj.user.first_name
 
     class Meta:
         model = UserCompleted
@@ -184,7 +184,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "username",
+            "first_name",
             "phone",
             "user_delivery",
             "user_assigned"
