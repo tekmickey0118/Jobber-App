@@ -3,7 +3,7 @@ from django.utils import timezone
 
 from .serializers import *
 from .models import *
-from users.models import User, User_status
+from users.models import User, User_status,UserReview
 
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -307,3 +307,24 @@ class UncompletedTaskUserView(generics.ListAPIView):
         delivery_user_tasks = NewTask.objects.filter(user_completed__completed = False)
         return (delivery_user_tasks)
 
+
+#User review system
+class UserReviewView(APIView):
+    
+
+    def post(self, request, *args, **kwargs):
+        accept_task_id = int(request.data['task_id'])
+        review_stars = int(request.data['review_stars'])
+        review_text = request.data['review_text']
+        assigned_task = UserAssigned.objects.get(task_id = accept_task_id)
+
+        if self.request.user == assigned_task.user:
+            user_review = UserReview.objects.create(user_task = assigned_task.task ,user = assigned_task.delivery_user, review_star = review_stars, review_text = review_text)
+            user_review.save()
+            return Response({'message':'Thanks for rating this delivery :)'})
+        elif self.request.user == assigned_task.delivery_user:
+            user_review = UserReview.objects.create(user_task = assigned_task.task, user = assigned_task.user, review_star = review_stars, review_text = review_text)
+            user_review.save()
+            return Response({'message':'Thanks for rating this delivery :)'})
+        else:
+            return Response({'message':'See you next time... Hope you had great experience.'})

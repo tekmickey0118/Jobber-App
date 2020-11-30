@@ -26,5 +26,6 @@ urlpatterns = [
     path('task/cancel/', CancelTaskView.as_view()),
     path('task/cancel/all/', UncompletedTaskUserView.as_view()),
 
+    path('task/user/review/', UserReviewView.as_view()),
 
 ]

@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from .managers import UserManager
 import urllib.request
 import mimetypes
+import jobberwork
 
 class User(AbstractUser):
 
@@ -51,4 +52,14 @@ class User_status(models.Model):
     deliveries_done = models.IntegerField(default = 0)
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
+
+
+class UserReview(models.Model):
+    user_task = models.ForeignKey("jobberwork.NewTask",related_name = 'task', on_delete = models.CASCADE)
+    user = models.ForeignKey(User,related_name = 'user_review',on_delete = models.CASCADE)
+    review_star = models.IntegerField(default = 0, blank = True)
+    review_text = models.CharField(max_length = 100, blank = True)
+
+    def __str__(self):
+        return self.user.email
