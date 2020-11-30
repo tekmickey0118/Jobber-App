@@ -49,6 +49,7 @@ class User(AbstractUser):
 #to put tasks integer field to this model----------
 class User_status(models.Model):
     user = models.OneToOneField(User,related_name = 'user_status',on_delete = models.CASCADE)
+    average_review = models.FloatField(default = 0)
     deliveries_done = models.IntegerField(default = 0)
 
     def __str__(self):

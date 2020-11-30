@@ -310,7 +310,8 @@ class UncompletedTaskUserView(generics.ListAPIView):
 
 #User review system
 class UserReviewView(APIView):
-    
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
     def post(self, request, *args, **kwargs):
         accept_task_id = int(request.data['task_id'])
@@ -322,9 +323,33 @@ class UserReviewView(APIView):
             user_review = UserReview.objects.create(user_task = assigned_task.task ,user = assigned_task.delivery_user, review_star = review_stars, review_text = review_text)
             user_review.save()
             return Response({'message':'Thanks for rating this delivery :)'})
+
+            user = User_status.objects.create(user = assigned_task.delivery_user)
+            delivery_user.save()
+            user_all = UserReview.objects.filter(user = assigned_task.delivery_user)
+            total_reviews = len(user_all)
+            list_review = []
+            for u in user_all:
+                list_review += [(u.review_star)]    
+            average_reviews = sum(list_review)/(total_reviews*5)*5
+            user_status_review = User_status.objects.get(user = assigned_task.task)
+            user_status_review.average_review = average_reviews
+            user_status_review.save(update_fields = ['average_review'])
+            
         elif self.request.user == assigned_task.delivery_user:
             user_review = UserReview.objects.create(user_task = assigned_task.task, user = assigned_task.user, review_star = review_stars, review_text = review_text)
             user_review.save()
             return Response({'message':'Thanks for rating this delivery :)'})
+
+            user_all = UserReview.objects.filter(user = assigned_task.user)
+            total_reviews = len(user_all)
+            list_review = []
+            for u in user_all:
+                list_review += [(u.review_star)]    
+            average_reviews = sum(list_review)/(total_reviews*5)*5
+            user_status_review = User_status.objects.get(user = assigned_task.user)
+            user_status_review.average_review = average_reviews
+            user_status_review.save(update_fields = ['average_review'])
+
         else:
             return Response({'message':'See you next time... Hope you had great experience.'})

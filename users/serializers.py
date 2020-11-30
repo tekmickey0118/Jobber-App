@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, User_status
+from .models import User, User_status, UserReview
 
 
 class UserFormSerializer(serializers.ModelSerializer):
@@ -92,4 +92,40 @@ class UserInfoSerializer(serializers.ModelSerializer):
             "completed_tasks",
             "uncompleted_tasks",
             "user_status",
+        )
+
+
+class AverageReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_status
+        fields = (
+            "average_review",
+            "deliveries_done"
+        )
+
+
+class AverageReviewDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserReview
+        fields = (
+            "review_star",
+            "review_text"
+        )
+
+
+class IndividualUserSerializer(serializers.ModelSerializer):
+    user_status = AverageReviewSerializer(read_only = True)
+    user_review = AverageReviewDetailSerializer(many = True, read_only = True)
+
+    class Meta:
+        model = User
+        fields = (
+            "first_name",
+            "reg_number",
+            "profile_pic",
+            "total_tasks",
+            "completed_tasks",
+            "uncompleted_tasks",
+            "user_status",
+            "user_review"
         )

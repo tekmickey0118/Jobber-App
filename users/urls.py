@@ -12,5 +12,6 @@ urlpatterns = [
     path('me/form/', views.user_form),
     path('me/info/', views.user_detail_view),
     path('me/edit/', views.user_edit),
+    path('<str:first_name>', views.UserIndividualView.as_view()),
     path('logout/', LogoutView.as_view()),
 ]+static(settings.MEDIA_URL, document_root=settings.STATIC_ROOT)

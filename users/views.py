@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from .models import User
+from .models import User, UserReview, User_status
 from rest_framework.decorators import api_view
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from dj_rest_auth.models import TokenModel
@@ -126,3 +126,20 @@ def reg_exists(request):
     else:
         return Response({"reg_exists": False})
 '''
+
+
+#user specific tasks
+class UserIndividualView(generics.ListAPIView):
+    
+    
+    queryset = User.objects.all()
+    serializer_class = IndividualUserSerializer
+    model = User
+    lookup_field = 'first_name'
+
+    def get_queryset(self):
+        queryset1 = User.objects.filter(first_name = self.kwargs['first_name'])
+        return queryset1
+        
+        
+        
