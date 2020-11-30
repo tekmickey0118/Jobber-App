@@ -7,23 +7,13 @@ class UserFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "username",
+            "first_name",
             "reg_number",
             "hostel_room",
             "phone",
             "gender"
         )
 
-        def validate_username(self, response):
-            if not self._isValid(response):
-                raise serializers.ValidationError("Incorrect string type for field 'username'")
-            return response
-
-        def _isValid(self, user_response):
-            string_check = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
-            if string_check.search(user_response) is None:
-                return True
-            return False
 
 '''
 class Base64ImageField(serializers.ImageField):
@@ -71,7 +61,8 @@ class UserEditSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "id",
-            "username",
+            "first_name",
+            "reg_number",
             "hostel_room",
             "phone",
             "profile_pic"

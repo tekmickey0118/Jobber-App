@@ -13,6 +13,13 @@ import base64
 import os
 from django.core.files import File 
 from django.core.files.uploadedfile import UploadedFile
+from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from django.contrib.auth import get_user_model
+
 
 class CustomLoginView(LoginView):
     def get_response(self):
@@ -34,13 +41,18 @@ class CustomLoginView(LoginView):
         domain_false = {'domain_vit': False}
         domain_true= {'domain_vit': True}
 
-        if self.user.username == '':
-            check = {'username_exists': False}
+        #user exist validation
+        if self.user.username:
+            check = {'user_exists': True}
         else:
-            check = {'username_exists': True}
+            check = {'user_exists': False}
 
         if self.user.email.split('@')[1] == "vitstudent.ac.in":
             response = Response({**serializer.data, **check,**domain_true}, status=status.HTTP_200_OK)
+            logged_in_user = User.objects.get(id = self.request.user.id)
+            logged_in_user.username = self.user.email
+            logged_in_user.reg_number = self.user.last_name
+            logged_in_user.save(update_fields=['username','reg_number'])
         else:
             response = Response({**serializer.data, **domain_false}, status=status.HTTP_200_OK)
             User.objects.get(id = self.request.user.id).delete()
@@ -63,16 +75,17 @@ class GoogleLogin(CustomSocialLoginView):
         return super(GoogleLogin, self).post(request, *args, **kwargs)
 
 
-@api_view(['POST'])
+@api_view(['GET','POST'])
 def user_form(request):
-    if User.objects.filter(username=request.data['username']).exists():
-        return Response({'error': 'User with this username already exists'})
-    else:
+    if request.method == 'POST':
         serializer = UserFormSerializer(instance=request.user, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         resp = {"success": "information saved successfully"}
         return Response(resp)
+    if request.method == 'GET':
+        serializer = UserFormSerializer(request.user)
+        return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -80,7 +93,7 @@ def user_detail_view(request):
     serializer = UserInfoSerializer(request.user)
     return Response(serializer.data)
 
-#erorrrrrrrr
+
 @api_view(['PATCH','GET'])
 def user_edit(request, format = None):
     if request.method == 'PATCH':
@@ -96,18 +109,20 @@ def user_edit(request, format = None):
         serializer = UserEditSerializer(request.user)
         return Response(serializer.data)
 
-
+'''
 @api_view(['GET'])
 def username_exists(request):
     if request.user.username:
         return Response({"username_exists": True})
     else:
         return Response({"username_exists": False})
+'''
 
-
+'''
 @api_view(['GET'])
 def reg_exists(request):
     if request.user.reg_number:
         return Response({"reg_exists": True})
     else:
         return Response({"reg_exists": False})
+'''
