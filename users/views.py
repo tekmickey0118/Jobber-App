@@ -130,7 +130,8 @@ def reg_exists(request):
 
 #user specific tasks
 class UserIndividualView(generics.ListAPIView):
-    
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     
     queryset = User.objects.all()
     serializer_class = IndividualUserSerializer
