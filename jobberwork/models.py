@@ -9,7 +9,7 @@ class NewTask(models.Model):
     Description = models.TextField(null=False)
     Time = models.TimeField(auto_now_add=True)
     Date = models.DateField(auto_now_add=True)#auto add date
-    location = ArrayField(models.FloatField(default=0))
+    location = models.TextField()
     price = models.IntegerField(default=0)
     active = models.BooleanField(default=True)
 
