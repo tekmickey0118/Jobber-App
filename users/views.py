@@ -75,9 +75,9 @@ class GoogleLogin(CustomSocialLoginView):
         return super(GoogleLogin, self).post(request, *args, **kwargs)
 
 
-@api_view(['GET','POST'])
+@api_view(['GET','PATCH'])
 def user_form(request):
-    if request.method == 'POST':
+    if request.method == 'PATCH':
         serializer = UserFormSerializer(instance=request.user, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -96,6 +96,9 @@ def user_detail_view(request):
 
 @api_view(['PATCH','GET'])
 def user_edit(request, format = None):
+    """
+    description: This API deletes/uninstalls a device.
+    """
     if request.method == 'PATCH':
         serializer = UserEditSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
