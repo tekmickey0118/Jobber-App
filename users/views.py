@@ -68,11 +68,7 @@ class GoogleLogin(CustomSocialLoginView):
     adapter_class = GoogleOAuth2Adapter
     token_model = TokenModel
     client_class = OAuth2Client
-
-    def post(self, request, *args, **kwargs):
-        url = self.request.data.get('callback_url')
-        self.callback_url = url
-        return super(GoogleLogin, self).post(request, *args, **kwargs)
+    callback_url = "http://127.0.0.1:8000/"
 
 
 @api_view(['GET','PATCH'])
