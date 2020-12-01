@@ -13,7 +13,7 @@ schema_view = get_schema_view(title='Jobber API', renderer_classes=[OpenAPIRende
 
 
 urlpatterns = [
-    url(r'^swagger/', SwaggerSchemaView.as_view()),
+    url(r'^swagger/', schema_view, name = 'docs'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
     path('api/v1/users/', include('users.urls')),
