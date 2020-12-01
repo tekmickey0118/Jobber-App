@@ -97,14 +97,11 @@ def user_detail_view(request):
 @api_view(['PATCH','GET'])
 def user_edit(request, format = None):
     if request.method == 'PATCH':
-        if User.objects.filter(username=request.data['username']).exists():
-            return Response({'error': 'User with this username already exists'})
-        else:
-            serializer = UserEditSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            resp = {"success": "Information saved successfully"}
-            return Response(resp)
+        serializer = UserEditSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        resp = {"success": "Information saved successfully"}
+        return Response(resp)
     if request.method == 'GET':
         serializer = UserEditSerializer(request.user)
         return Response(serializer.data)
