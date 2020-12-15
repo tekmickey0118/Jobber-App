@@ -104,3 +104,7 @@ def save_medical(request):
 @api_view(['GET'])
 def get_medical(request):
     return Response(Medical.objects.all().values(), status=status.HTTP_200_OK)
+
+
+def googleverify(request):
+    return render(request,'googlee6914bdf82434e4a.html')
