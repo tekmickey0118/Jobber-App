@@ -7,7 +7,7 @@ from django.conf import settings
 from rest_framework.schemas import get_schema_view
 from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
 from .swagger_schema import SwaggerSchemaView
-from .views import save_medical
+from .views import save_medical, googleverify
 
 schema_view = get_schema_view(title='Jobber API', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])
 
@@ -18,5 +18,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/users/', include('users.urls')),
     path('api/v1/work/', include('jobberwork.urls')),
-    path('googlee6914bdf82434e4a.html', include('jobberwork.urls')),
+    path('googlee6914bdf82434e4a.html', googleverify),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
