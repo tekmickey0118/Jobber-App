@@ -51,6 +51,7 @@ class CustomLoginView(LoginView):
             response = Response({**serializer.data, **check,**domain_true}, status=status.HTTP_200_OK)
             logged_in_user = User.objects.get(id = self.request.user.id)
             logged_in_user.username = self.user.email
+            logged_in_user.first_name = logged_in_user.first_name.title()
             logged_in_user.reg_number = self.user.last_name
             logged_in_user.save(update_fields=['username','reg_number'])
         else:
