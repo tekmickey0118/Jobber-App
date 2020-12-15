@@ -10,6 +10,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from users.models import User
 from rest_framework import status
+from django.shortcuts import render, get_object_or_404
+
 
 class CustomSchemaGenerator(SchemaGenerator):
     def get_link(self, path, method, view):
