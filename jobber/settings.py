@@ -31,7 +31,7 @@ if env.bool('DJANGO_READ_DOT_ENV_FILE', default=True):
 SECRET_KEY = '$h7=!ie8*clz36is7b^#+nt!&y&5pj4!2yg+qk1rvuj2_zh-ly'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['127.0.0.1','jobber-vit.herokuapp.com','localhost']
@@ -157,7 +157,7 @@ SOCIALACCOUNT_PROVIDERS = {
             'email',
         ],
         'AUTH_PARAMS': {
-            'access_type': 'online',
+            'access_type': 'offline',
         },
     },
 }
