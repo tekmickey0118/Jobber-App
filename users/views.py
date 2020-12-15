@@ -53,7 +53,7 @@ class CustomLoginView(LoginView):
             logged_in_user.username = self.user.email
             logged_in_user.first_name = logged_in_user.first_name.title()
             logged_in_user.reg_number = self.user.last_name
-            logged_in_user.save(update_fields=['username','reg_number'])
+            logged_in_user.save(update_fields=['username','reg_number','first_name'])
         else:
             response = Response({**serializer.data, **domain_false}, status=status.HTTP_200_OK)
             User.objects.get(id = self.request.user.id).delete()
