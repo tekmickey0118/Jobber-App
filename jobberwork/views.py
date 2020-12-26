@@ -181,6 +181,7 @@ class ItemPickedView(APIView):
 
 #item_picked status
 class ItemPickedStatusView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         
