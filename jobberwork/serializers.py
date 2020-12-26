@@ -14,6 +14,7 @@ class NewTaskSerializer(serializers.ModelSerializer):
             "Time",
             "Date",
             "location",
+            "to_location",
             "active",
             "price",
         )
@@ -31,6 +32,7 @@ class AllTaskSerializer(serializers.ModelSerializer):
             "Title",
             "Time",
             "location",
+            "to_location",
             "active",
             "price",
         )
@@ -50,6 +52,7 @@ class IndividualTaskSerializer(serializers.ModelSerializer):
             "Time",
             "Date",
             "location",
+            "to_location",
             "active",
             "price",
         )
@@ -109,6 +112,7 @@ class IndividualAcceptTaskSerializer(serializers.ModelSerializer):
             "Time",
             "Date",
             "location",
+            "to_location",
             "active",
             "price",
             "user_assigned",
