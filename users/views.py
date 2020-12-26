@@ -51,8 +51,9 @@ class CustomLoginView(LoginView):
             response = Response({**serializer.data, **check,**domain_true}, status=status.HTTP_200_OK)
             logged_in_user = User.objects.get(id = self.request.user.id)
             logged_in_user.username = self.user.email
+            logged_in_user.first_name = logged_in_user.first_name.title()
             logged_in_user.reg_number = self.user.last_name
-            logged_in_user.save(update_fields=['username','reg_number'])
+            logged_in_user.save(update_fields=['username','reg_number','first_name'])
         else:
             response = Response({**serializer.data, **domain_false}, status=status.HTTP_200_OK)
             User.objects.get(id = self.request.user.id).delete()
@@ -68,7 +69,7 @@ class GoogleLogin(CustomSocialLoginView):
     adapter_class = GoogleOAuth2Adapter
     token_model = TokenModel
     client_class = OAuth2Client
-    callback_url = "http://127.0.0.1:8000/"
+    callback_url = "https://127.0.0.1:8000/"
 
 
 @api_view(['GET','PATCH'])
