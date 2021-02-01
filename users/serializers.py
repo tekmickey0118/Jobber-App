@@ -66,7 +66,7 @@ class UserEditSerializer(serializers.ModelSerializer):
             "reg_number",
             "hostel_room",
             "phone",
-            "profile_pic",
+            "profile_pic"
         )
         
 
@@ -76,7 +76,7 @@ class UserStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = User_status
         fields = (
-            "deliveries_done",
+            "deliveries_done"
         )
 
 class UserInfoSerializer(serializers.ModelSerializer):
@@ -93,7 +93,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
             "total_tasks",
             "completed_tasks",
             "uncompleted_tasks",
-            "user_status",
+            "user_status"
         )
 
 
@@ -136,6 +136,5 @@ class AvatarSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "id",
             "profile_pic"
         )

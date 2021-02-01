@@ -140,14 +140,17 @@ class UserIndividualView(generics.ListAPIView):
         queryset1 = User.objects.filter(first_name = self.kwargs['first_name'])
         return queryset1
         
-        
+def remove_field(model_cls, field_name):
+    for field in model_cls._meta.local_fields:
+        if field.name == field_name:
+            model_cls._meta.local_fields.remove(field)    
         
 class FileUploadView(APIView):
     parser_classes = (MultiPartParser, FileUploadParser )
-
     def patch(self, request, format='jpg'):
         photo = request.data['profile_pic']
         person = User.objects.get(id = self.request.user.id)
+        person.profile_pic.delete()
         person.profile_pic = photo
         person.save(update_fields=['profile_pic'])
         return Response("Profile pic updated successfully", status.HTTP_201_CREATED)
