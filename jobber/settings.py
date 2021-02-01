@@ -147,9 +147,19 @@ SWAGGER_SETTINGS = {
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {
+DATABASES = {
+    "default": {
     'default': {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
         'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'jobber',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'USER': 'jobber',
+        'PASSWORD': 'jobber123',
+        'HOST': 'localhost',
+        'PORT': 5432,
+        'CONN_MAX_AGE': 60
+    }
     }
 }
 
