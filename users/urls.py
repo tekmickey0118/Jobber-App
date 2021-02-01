@@ -10,6 +10,7 @@ from django.conf import settings
 urlpatterns = [
     path('auth/google/', GoogleLogin.as_view()),
     path('me/form/', views.user_form),
+    url(r'^me/avatar/', views.FileUploadView.as_view()),
     path('me/info/', views.user_detail_view),
     path('me/edit/', views.user_edit),
     path('<str:first_name>', views.UserIndividualView.as_view()),

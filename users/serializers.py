@@ -7,6 +7,7 @@ class UserFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            "profile_pic",
             "first_name",
             "reg_number",
             "hostel_room",
@@ -65,7 +66,7 @@ class UserEditSerializer(serializers.ModelSerializer):
             "reg_number",
             "hostel_room",
             "phone",
-            "profile_pic"
+            "profile_pic",
         )
         
 
@@ -84,6 +85,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            "profile_pic",
             "first_name",
             "reg_number",
             "phone",
@@ -128,4 +130,12 @@ class IndividualUserSerializer(serializers.ModelSerializer):
             "uncompleted_tasks",
             "user_status",
             "user_review"
+        )
+
+class AvatarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "profile_pic"
         )

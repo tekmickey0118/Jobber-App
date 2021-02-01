@@ -23,7 +23,7 @@ class AllTaskSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 
     def get_user(self, obj):
-        return obj.user.first_name
+        return obj.user.first_name, obj.user.profile_pic
     class Meta:
         model = NewTask
         fields = (
@@ -36,12 +36,13 @@ class AllTaskSerializer(serializers.ModelSerializer):
             "active",
             "price",
         )
+from rest_framework.renderers import JSONRenderer
 
 class IndividualTaskSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 
     def get_user(self, obj):
-        return obj.user.first_name,obj.user.reg_number
+        return obj.user.first_name,obj.user.reg_number, obj.user.profile_pic.url
     class Meta:
         model = NewTask
         fields = (
@@ -77,10 +78,10 @@ class DeliveryUserSerializer(serializers.ModelSerializer):
     task = serializers.SerializerMethodField()
 
     def get_user(self, obj):
-        return obj.user.first_name,obj.user.phone
+        return obj.user.first_name,obj.user.phone, obj.user.profile_pic.url
 
     def get_delivery_user(self, obj):
-        return obj.delivery_user.first_name, obj.delivery_user.phone
+        return obj.delivery_user.first_name, obj.delivery_user.phone, obj.delivery_user.profile_pic.url
 
     def get_task(self, obj):
         return obj.task.Title
@@ -99,8 +100,9 @@ class IndividualAcceptTaskSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
     user_assigned = DeliveryUserSerializer(read_only = True)
 
+
     def get_user(self, obj):
-        return obj.user.first_name,obj.user.phone,obj.user.hostel_room,obj.user.reg_number
+        return obj.user.first_name,obj.user.phone,obj.user.hostel_room,obj.user.reg_number, obj.user.profile_pic.url
 
     class Meta:
         model = NewTask
@@ -152,7 +154,7 @@ class CompletedSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 
     def get_user(self, obj):
-        return obj.user.first_name
+        return obj.user.first_name, obj.user.profile_pic
 
     class Meta:
         model = UserCompleted

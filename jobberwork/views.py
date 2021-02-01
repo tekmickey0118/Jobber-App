@@ -43,7 +43,7 @@ class IndividualAcceptTaskView(generics.ListAPIView):
 class UserIndividualTaskView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
-    
+
     queryset = NewTask.objects.all()
     serializer_class = IndividualTaskSerializer
     model = NewTask

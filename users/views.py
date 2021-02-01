@@ -19,6 +19,9 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
+from rest_framework.exceptions import ParseError
+from rest_framework.parsers import FileUploadParser, MultiPartParser
+from rest_framework.views import APIView
 
 
 class CustomLoginView(LoginView):
@@ -139,3 +142,12 @@ class UserIndividualView(generics.ListAPIView):
         
         
         
+class FileUploadView(APIView):
+    parser_classes = (MultiPartParser, FileUploadParser )
+
+    def patch(self, request, format='jpg'):
+        photo = request.data['profile_pic']
+        person = User.objects.get(id = self.request.user.id)
+        person.profile_pic = photo
+        person.save(update_fields=['profile_pic'])
+        return Response("Profile pic updated successfully", status.HTTP_201_CREATED)
