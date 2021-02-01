@@ -93,9 +93,7 @@ def user_detail_view(request):
 
 @api_view(['PATCH','GET'])
 def user_edit(request, format = None):
-    """
-    description: This API deletes/uninstalls a device.
-    """
+    
     if request.method == 'PATCH':
         serializer = UserEditSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

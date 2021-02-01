@@ -106,7 +106,7 @@ class AllTaskView(generics.ListAPIView):
     serializer_class = AllTaskSerializer
 
     def get_queryset(self):
-        task_get = NewTask.objects.filter(active = True).order_by('-id')
+        task_get = NewTask.objects.filter(active = True).order_by('-id').exclude(user=self.request.user)
         return task_get
 
 
