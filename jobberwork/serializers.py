@@ -36,7 +36,6 @@ class AllTaskSerializer(serializers.ModelSerializer):
             "active",
             "price",
         )
-from rest_framework.renderers import JSONRenderer
 
 class IndividualTaskSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
