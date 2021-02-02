@@ -23,7 +23,7 @@ class AllTaskSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 
     def get_user(self, obj):
-        return obj.user.first_name, obj.user.profile_pic
+        return obj.user.first_name, obj.user.profile_pic.url
     class Meta:
         model = NewTask
         fields = (
